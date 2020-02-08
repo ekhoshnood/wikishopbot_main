@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.contrib.auth.models import User
 from django.forms import CheckboxSelectMultiple
 
-from django.db.models.signals import post_delete, pre_save
+from django.db.models.signals import post_delete
 from django.dispatch import receiver
 
 
@@ -55,17 +55,6 @@ class Post(models.Model):
 @receiver(post_delete, sender=Post)
 def submission_delete(sender, instance, **kwargs):
     instance.image.delete(False)
-
-# this will be called before the blog post is committed to database
-def pre_save_blog_post_receiver(sender, instance, *args, **kwargs):
-    # if there is no slug created yet => create this slug with this format, so it will be unique
-    if not Channel.user:
-        Channel.user = User
-
-
-# wire up our pre_save receiver
-# whenever a blog post attends to save to database => call this function (pre_save_blog_post_receiver)
-pre_save.connect(pre_save_blog_post_receiver, sender=Channel)
 
 
 class MyModelAdmin(admin.ModelAdmin):
