@@ -26,7 +26,6 @@ class Senf(models.Model):
 
 # data list model
 class Channel(models.Model):
-    user                    = models.ForeignKey(User, on_delete=models.CASCADE)
     chat_id                 = models.IntegerField(blank=True, null=True, unique=True)
     admin_id                = models.IntegerField(blank=True, null=True)
     admin_user              = models.CharField(max_length=50, null=True)
